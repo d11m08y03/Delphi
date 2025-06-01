@@ -19,7 +19,7 @@ jobs:
 
       - name: Deploy to VPS
         run: |
-          ssh -o StrictHostKeyChecking=no deployer@your-vps-ip << 'EOF'
+          ssh -o StrictHostKeyChecking=no zakariyya@${{ secrets.VPS_IP_ADDR }}<< 'EOF'
           cd ~/deployments/delphi || exit 1
           git pull origin master
           
