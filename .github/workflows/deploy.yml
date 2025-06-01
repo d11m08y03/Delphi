@@ -1,0 +1,36 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Deploy to VPS
+        run: |
+          ssh -o StrictHostKeyChecking=no deployer@your-vps-ip << 'EOF'
+          cd ~/deployments/delphi || exit 1
+          git pull origin master
+          
+          docker stop delphi-container || true
+          docker rm delphi-container || true
+          
+          docker build -t delphi-image .
+          docker run -d \
+            --name delphi-container \
+            -p 8000:8000 \
+            --restart unless-stopped \
+            --env-file .env \
+            delphi-image
+          EOF
