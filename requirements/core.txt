@@ -3,4 +3,6 @@ uvicorn[standard]
 httpx
 sqlalchemy[asyncio]
 pydantic
+pydantic-settings
 python-dotenv
+aiosqlite
