@@ -13,6 +13,7 @@ services:
       - traefik.enable=true
       - traefik.http.routers.delphi-http.rule=Host(`delphi.sigmundus.com`)
       - traefik.http.routers.delphi-http.entrypoints=web
+      - traefik.http.services.delphi-service.loadbalancer.server.port=8000
     restart:
       unless-stopped
 networks:
