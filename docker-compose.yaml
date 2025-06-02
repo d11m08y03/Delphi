@@ -1,0 +1,18 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/app/app
+      - ./main.py:/app/main.py
+    networks:
+      - delphi
+    labels:
+      - traefik.http.routers.delphi-router=Host(`delphi.sigmundus.com`)
+      - traefik.http.routers.delphi-router=web
+    restart:
+      unless-stopped
+networks:
+  delphi:
+    external: true

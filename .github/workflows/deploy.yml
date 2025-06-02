@@ -19,18 +19,18 @@ jobs:
 
       - name: Deploy to VPS
         run: |
-          ssh -o StrictHostKeyChecking=no zakariyya@${{ secrets.VPS_IP_ADDR }}<< 'EOF'
+          ssh -o StrictHostKeyChecking=no zakariyya@${{ secrets.VPS_IP_ADDR }} << 'EOF'
           cd ~/deployments/delphi || exit 1
+          
+          # Pull latest changes
           git pull origin master
           
-          docker stop delphi-container || true
-          docker rm delphi-container || true
+          # Stop and remove old containers (if any)
+          docker-compose down || true
           
-          docker build -t delphi-image .
-          docker run -d \
-            --name delphi-container \
-            -p 8000:8000 \
-            --restart unless-stopped \
-            --env-file .env \
-            delphi-image
+          # Rebuild and start new containers
+          docker-compose up -d --build
+          
+          # Clean up unused images to save space
+          docker image prune -f
           EOF
