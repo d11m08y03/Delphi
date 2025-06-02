@@ -3,7 +3,7 @@ services:
     build: .
     env_file: .env
     ports:
-      - "8000:8000"
+      - "5000:8000"
     volumes:
       - ./app:/app/app
       - ./main.py:/app/main.py
