@@ -10,7 +10,7 @@ services:
     networks:
       - delphi
     labels:
-      - traefik.http.routers.delphi-http=Host(`delphi.sigmundus.com`)
+      - traefik.http.routers.delphi-http.rule=Host(`delphi.sigmundus.com`)
       - traefik.http.routers.delphi-http.entrypoints=web
     restart:
       unless-stopped
