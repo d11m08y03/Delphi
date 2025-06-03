@@ -9,11 +9,6 @@ services:
       - ./main.py:/app/main.py
     networks:
       - delphi
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.delphi-http.rule=Host(`delphi.sigmundus.com`)
-      - traefik.http.routers.delphi-http.entrypoints=web
-      - traefik.http.services.delphi-service.loadbalancer.server.port=5000
     restart:
       unless-stopped
 networks:
