@@ -13,13 +13,13 @@ class GoogleOAuth2Service(OAuth2Service):
     TOKEN_URL = "https://oauth2.googleapis.com/token"
     USERINFO_URL = "https://openidconnect.googleapis.com/v1/userinfo"
 
-    async def authenticate_user(self, authorization_code: str) -> User:
+    async def authenticate_user(self, authorization_code: str) -> tuple[User, dict]:
         try:
             tokens = await self._exchange_code_for_tokens(authorization_code)
 
             userinfo = await self._get_user_info(tokens["access_token"])
 
-            return self._create_user_from_info(userinfo)
+            return self._create_user_from_info(userinfo), tokens
 
         except httpx.HTTPStatusError as e:
             raise ProviderCommunicationError(
@@ -40,7 +40,8 @@ class GoogleOAuth2Service(OAuth2Service):
                         "client_secret": settings.GOOGLE_CLIENT_SECRET,
                         "code": code,
                         "grant_type": "authorization_code",
-                        "redirect_uri": settings.SERVER_URL + "/api/auth/google-callback",
+                        "redirect_uri": settings.SERVER_URL
+                        + "/api/auth/google-callback",
                     },
                     headers={"Content-Type": "application/x-www-form-urlencoded"},
                 )

@@ -3,15 +3,16 @@ from fastapi.responses import RedirectResponse
 from app.infrastructure.auth.google_oauth2 import GoogleOAuth2Service
 from app.domain.use_cases.oauth2_use_case import OAuth2UserUseCase
 from app.services.auth_service import AuthService
-from app.core.exceptions import OAuthError 
+from app.core.exceptions import OAuthError
 from app.core.config import settings
-from app.interfaces.dependencies import get_oauth2_user_use_case, get_auth_service
-from app.interfaces.schemas.oauth2_schemas import (
-    OAuth2LoginResponse,
+from app.interfaces.dependencies import (
+    get_google_oauth2_service,
+    get_oauth2_user_use_case,
+    get_auth_service,
 )
+from app.interfaces.schemas.oauth2_schemas import OAuth2LoginResponse
 
 router = APIRouter(prefix="/api/auth", tags=["google_oauth2"])
-oauth2_service = GoogleOAuth2Service()
 
 
 @router.get("/google-login", response_model=OAuth2LoginResponse)
@@ -35,12 +36,19 @@ async def callback(
     code: str = Query(...),
     oauth2_use_case: OAuth2UserUseCase = Depends(get_oauth2_user_use_case),
     auth_service: AuthService = Depends(get_auth_service),
+    google_oauth2_service: GoogleOAuth2Service = Depends(get_google_oauth2_service),
 ):
-    user = await oauth2_service.authenticate_user(code)
-    if not user:
+    user, tokens = await google_oauth2_service.authenticate_user(code)
+    if not user or not tokens:
         raise OAuthError("Invalid OAuth2 code")
 
-    domain_user = await oauth2_use_case.create_or_update_user(user)
+    domain_user = await oauth2_use_case.create_or_update_user(
+        oauth_user=user,
+        provider="google",
+        account_email=user.email,
+        access_token=tokens.get("access_token"),
+        refresh_token=tokens.get("refresh_token"),
+    )
 
     if domain_user.id is None:
         raise OAuthError("User ID is missing")
