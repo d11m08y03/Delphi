@@ -4,3 +4,4 @@ httpx
 sqlalchemy[asyncio]
 pydantic
 python-dotenv
+aiosqlite
