@@ -8,6 +8,7 @@ class Settings(BaseSettings):
 
     # JWT Settings
     JWT_SECRET_KEY: str = Field(...)
+    JWT_ALGORITHM: str = Field(...)
 
     # OpenAI Configuration
     OPENAI_API_KEY: str = Field(...)
