@@ -1,7 +1,7 @@
-from app.domain.models.user import User
-from app.domain.models.related_account import RelatedAccount
-from app.domain.interfaces.user_repository import UserRepository
 from app.domain.interfaces.related_account_repository import RelatedAccountRepository
+from app.domain.interfaces.user_repository import UserRepository
+from app.domain.models.related_account import RelatedAccount
+from app.domain.models.user import User
 
 
 class OAuth2UserUseCase:

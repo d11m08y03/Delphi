@@ -1,12 +1,14 @@
+import logging
+from typing import Any, Dict
+
 from fastapi.responses import JSONResponse
 from starlette.types import ASGIApp, Receive, Scope, Send
+
 from app.core.exceptions import (
     AppError,
     OAuthError,
     get_http_status_code,
 )
-import logging
-from typing import Dict, Any
 
 logger = logging.getLogger(__name__)
 

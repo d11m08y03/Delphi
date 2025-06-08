@@ -1,12 +1,13 @@
 import httpx
-from app.domain.interfaces.oauth2_service import OAuth2Service
-from app.domain.models.user import User
+
 from app.core.config import settings
 from app.core.exceptions import (
     InvalidTokenError,
-    ProviderCommunicationError,
     MissingUserDataError,
+    ProviderCommunicationError,
 )
+from app.domain.interfaces.oauth2_service import OAuth2Service
+from app.domain.models.user import User
 
 
 class GoogleOAuth2Service(OAuth2Service):

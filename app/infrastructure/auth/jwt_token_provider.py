@@ -1,9 +1,11 @@
-from jose import jwt
-from typing import Any, Dict
 from datetime import datetime, timedelta
-from jose import jwt, ExpiredSignatureError, JWTError
-from app.domain.interfaces.jwt_token_provider import JWTTokenProvider
+from typing import Any, Dict
+
+from jose import ExpiredSignatureError, JWTError, jwt
+
 from app.core.exceptions import AuthenticationError
+from app.domain.interfaces.jwt_token_provider import JWTTokenProvider
+
 
 class JoseJWTTokenProvider(JWTTokenProvider):
     def __init__(self, secret_key: str, algorithm: str = "HS256"):

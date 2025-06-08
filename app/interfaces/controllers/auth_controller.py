@@ -1,11 +1,12 @@
-from fastapi import APIRouter, HTTPException, Depends, status
-from app.interfaces.dependencies import get_user_repository, get_auth_service
+from fastapi import APIRouter, Depends, HTTPException, status
+
+from app.domain.use_cases.auth_use_case import AuthUseCase
+from app.interfaces.dependencies import get_auth_service, get_user_repository
 from app.interfaces.schemas.auth_schemas import (
-    RegisterRequest,
     LoginRequest,
     LoginResponse,
+    RegisterRequest,
 )
-from app.domain.use_cases.auth_use_case import AuthUseCase
 
 router = APIRouter(prefix="/api/auth", tags=["auth"])
 

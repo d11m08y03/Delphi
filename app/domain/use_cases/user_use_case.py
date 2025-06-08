@@ -1,7 +1,8 @@
-from app.services.auth_service import AuthService
+from typing import Optional
+
 from app.domain.interfaces.user_repository import UserRepository
 from app.domain.models.user import User
-from typing import Optional
+from app.services.auth_service import AuthService
 
 
 class UserUseCase:

@@ -1,9 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException, status
+
 from app.domain.use_cases.oauth2_use_case import OAuth2UserUseCase
 from app.infrastructure.auth.google_oauth2 import GoogleOAuth2Service
 from app.interfaces.dependencies import (
-    get_oauth2_user_use_case,
     get_google_oauth2_service,
+    get_oauth2_user_use_case,
 )
 from app.interfaces.schemas.related_account_schemas import (
     RelatedAccountRequest,

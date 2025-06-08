@@ -1,16 +1,17 @@
-from fastapi import APIRouter, Query, Depends
+from fastapi import APIRouter, Depends, Query
 from fastapi.responses import RedirectResponse
-from app.infrastructure.auth.google_oauth2 import GoogleOAuth2Service
-from app.domain.use_cases.oauth2_use_case import OAuth2UserUseCase
-from app.services.auth_service import AuthService
-from app.core.exceptions import OAuthError
+
 from app.core.config import settings
+from app.core.exceptions import OAuthError
+from app.domain.use_cases.oauth2_use_case import OAuth2UserUseCase
+from app.infrastructure.auth.google_oauth2 import GoogleOAuth2Service
 from app.interfaces.dependencies import (
+    get_auth_service,
     get_google_oauth2_service,
     get_oauth2_user_use_case,
-    get_auth_service,
 )
 from app.interfaces.schemas.oauth2_schemas import OAuth2LoginResponse
+from app.services.auth_service import AuthService
 
 router = APIRouter(prefix="/api/auth", tags=["google_oauth2"])
 

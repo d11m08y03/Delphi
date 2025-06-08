@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+
 from app.domain.use_cases.user_use_case import UserUseCase
 from app.interfaces.dependencies import get_user_use_case
 from app.interfaces.schemas.user_schemas import UserDetailsSchema

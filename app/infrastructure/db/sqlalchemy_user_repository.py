@@ -1,10 +1,11 @@
 from typing import Optional
+
+from sqlalchemy import Integer, String, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import Mapped, mapped_column
-from sqlalchemy import select
-from sqlalchemy import Integer, String
-from app.domain.models.user import User
+
 from app.domain.interfaces.user_repository import UserRepository
+from app.domain.models.user import User
 from app.infrastructure.db.base import Base
 
 
@@ -60,9 +61,7 @@ class SQLAlchemyUserRepository(UserRepository):
         return None
 
     async def get_by_id(self, id: int) -> Optional[User]:
-        result = await self.session.execute(
-            select(UserORM).where(UserORM.id == id)
-        )
+        result = await self.session.execute(select(UserORM).where(UserORM.id == id))
 
         user_orm = result.scalar_one_or_none()
         if user_orm:

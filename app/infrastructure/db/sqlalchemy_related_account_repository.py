@@ -1,10 +1,11 @@
+from typing import Optional
+
+from sqlalchemy import ForeignKey, Integer, String, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import Mapped, mapped_column
-from sqlalchemy import Integer, String, ForeignKey
-from sqlalchemy import select
-from typing import Optional
-from app.domain.models.related_account import RelatedAccount
+
 from app.domain.interfaces.related_account_repository import RelatedAccountRepository
+from app.domain.models.related_account import RelatedAccount
 from app.infrastructure.db.base import Base
 
 
@@ -69,7 +70,6 @@ class SQLAlchemyRelatedAccountRepository(RelatedAccountRepository):
         return None
 
     async def get_by_user_id(self, user_id: int) -> list[RelatedAccount]:
-
         result = await self.session.execute(
             select(RelatedAccountORM).where(RelatedAccountORM.user_id == user_id)
         )
